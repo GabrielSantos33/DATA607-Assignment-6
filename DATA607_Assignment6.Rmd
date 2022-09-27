@@ -35,8 +35,27 @@ library(ggplot2)
 
 ## Read the airline data
 
+
+## First read
+```{r}
+#reading .csv file
+airlines = read.csv("https://raw.githubusercontent.com/GabrielSantos33/DATA607-Assignment-6/main/airlines.csv")
+#eliminating empty row
+airlines=airlines[!(rowSums(is.na(airlines))),]
+#Populating empty airline cells
+airlines[2,1] = "ALASKA"
+airlines[4,1] = "AM WEST"
+#tidying things up
+airlines1 = gather(airlines, city, freq, Los.Angeles:Seattle)
+airlines2 = spread(airlines1, X.1, freq)
+names(airlines2)[1] = 'airlines'
+tbl_df(airlines2)
+```
+
+## Second read after modifying the csv file.
+
 ```{r message=FALSE}
-airlinesUntidyDf<-read.csv("https://raw.githubusercontent.com/rathish-ps/Data607-Assignment/main/airlines.csv")
+airlinesUntidyDf<-read.csv("https://raw.githubusercontent.com/GabrielSantos33/DATA607-Assignment-6/main/airlines2.csv")
 airlinesUntidyDf
 ```
 
