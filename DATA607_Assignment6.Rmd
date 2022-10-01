@@ -1,19 +1,22 @@
 ---
 title: "DATA607_Assignment6"
 author: "Gabriel Santos"
-date: "`r Sys.Date()`"
-output: html_document
+date: "10/01/2022"
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Overview
+### Assignment – Tidying and Transforming Data
 
 The chart above describes arrival delays for two airlines across five destinations.  \
 
-Your task is to: 
+Your task is to:
+
 (1) Create a .CSV file  that includes all of the information above.  \
     You’re encouraged to use a “wide” structure similar to how the information appears above, \ 
     so that you can practice tidying and transformations as described below. \
@@ -26,17 +29,20 @@ The URL to the .Rmd file in your GitHub repository. and
 The URL for your rpubs.com web page
 
 ### Prerequisites
+
 Load required packages
+
 ```{r message=FALSE}
 library(tidyr)
 library(dplyr)
 library(ggplot2)
 ```
 
-## Read the airline data
+### Read the airline data
 
 
-## First read
+### First read
+
 ```{r}
 #reading .csv file
 airlines = read.csv("https://raw.githubusercontent.com/GabrielSantos33/DATA607-Assignment-6/main/airlines.csv")
@@ -52,7 +58,7 @@ names(airlines2)[1] = 'airlines'
 tbl_df(airlines2)
 ```
 
-## Second read after modifying the csv file.
+### Second read after modifying the csv file.
 
 ```{r message=FALSE}
 airlinesUntidyDf<-read.csv("https://raw.githubusercontent.com/GabrielSantos33/DATA607-Assignment-6/main/airlines2.csv")
@@ -60,9 +66,9 @@ airlinesUntidyDf
 ```
 
 
-## Clean up the data
+### Clean up the data
 
-Transform the data from wide format to long format
+*Transform the data from wide format to long format*
 
 ```{r message=FALSE}
 #Move the destination columns (3 to 7) from the untidy data frame  into single destination column
@@ -72,9 +78,9 @@ airlinesDf
 ```
 
 
-## Data transformation
+### Data transformation
 
-Add additional columns for total ,  percentages for On time and delays
+*Add additional columns for total ,  percentages for On time and delays*
 
 ```{r message=FALSE}
 #Add additional columns for total flights , on time and delayed percentages 
@@ -93,14 +99,17 @@ airlineSummaryDf
 ```
 
 
-## Data visualisation
-Bar plot for each destination by Airline
+
+### Data visualisation
+
+*Bar plot for each destination by Airline*
+
 ```{r message=FALSE}
 #bar plot for ontime flights
 plt <- ggplot(airlinesTfDf, aes(y=prcntOnTime , x = Airline, color = Airline, fill = Airline)) + 
     geom_bar( stat = "identity") +
     geom_text(aes(label = prcntOnTime ), vjust = -.35) +
-     ylim(0, 95) +
+     ylim(0, 100) +
     facet_wrap(~Destination) +
     ylab("Percentage - On time Flights") +
     ggtitle("Percentage of On time Flights / Airline / Destination")
@@ -110,7 +119,7 @@ plt
 plt1 <- ggplot(airlinesTfDf, aes(y=prcntDelayed, x = Airline, color = Airline, fill = Airline)) + 
     geom_bar( stat = "identity") +
     geom_text(aes(label = prcntDelayed), vjust = -.35) +
-    ylim(0, 30) +
+    ylim(0, 35) +
     facet_wrap(~Destination) +
     ylab("Percentage - Delayed Flights") +
     ggtitle("Percentage of Delayed Flights / Airline / Destination")
@@ -119,7 +128,12 @@ plt1
 ```
 
 
-## Summary
+### Summary
 
-It is clear from the summary data that 'ALASKA' airline has more percentage delay than 'AM WEST' airline ,even though
-'AM WEST' has more percentage delay for each destination. This is mostly because of the number of flights operated by each airline to different destinations are different. 
+*According to the graphs of each airline by destination, the ALASKA airline has a higher percentage of flight departure on time than the AM WEST airline, in the different destinations.*
+
+*The AM WEST airline has a higher percentage of delayed flights than ALASKA, in the different destinations.*
+
+*In the general analysis, considering the total flights, the ALASKA airline has a higher percentage of delayed flights with 13.3% and the AM WEST airline has 10.69% of flight delays and this is because the ALASKA airline has a total of 3775 flights while the AM WEST airline has a total of 7225 flights.*
+
+*In conclusion, the AM WEST airline has a higher percentage of departure on time of 89.1% compared to ALASKA airlines.*
